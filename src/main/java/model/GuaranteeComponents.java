@@ -21,7 +21,7 @@ public class GuaranteeComponents {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private BigInteger id;
-    private Integer guarantee_Components;
+    private Integer guaranteeComponent;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "product_id")
