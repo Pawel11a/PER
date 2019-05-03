@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import model.enums.EGuarantee;
 
 import javax.persistence.*;
 import java.math.BigInteger;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -24,5 +26,13 @@ public class GuaranteeComponents {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "product_id")
     private Product product;
+
+//    @ElementCollection
+//    @CollectionTable(
+//            name = "guaranties",
+//            joinColumns = @JoinColumn(name = "health_card_id", referencedColumnName = "id")
+//    )
+//    @Column(name = "guarantee")
+//    private List<EGuarantee> guaranties;
 
 }
