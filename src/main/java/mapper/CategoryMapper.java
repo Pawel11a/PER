@@ -5,6 +5,7 @@ import model.Category;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import org.mapstruct.ValueMappings;
 
 @Mapper
 public interface CategoryMapper {
@@ -20,4 +21,9 @@ public interface CategoryMapper {
             @Mapping(source = "name", target = "name")
     })
     Category categoryDtoToCategory(CategoryDto categoryDto);
+
+//    @ValueMappings({
+//            @ValueMappings(source = "", target = "")
+//    })
+//    CategoryDtoType categoryTypeToCategoryDtoType(CategoryType categoryType);
 }
