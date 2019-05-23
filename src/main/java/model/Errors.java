@@ -1,11 +1,14 @@
 package model;
 
+
+import dto.ErrorsEnumDto;
+import lombok.AllArgsConstructor;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.math.BigInteger;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -13,14 +16,23 @@ public class Errors {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private BigInteger id;
-    private Date date;
+    private String date;
     private String message;
 
     public Errors() {
     }
     //NAZWA_TABELI;INFORMACJA O BŁĘDZIE.
 
-    public Errors(Date date, String message) {
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public Errors(String date, String message) {
         this.date = date;
         this.message = message;
     }
@@ -33,13 +45,6 @@ public class Errors {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 
     public String getMessage() {
         return message;

@@ -14,5 +14,7 @@ import java.math.BigInteger;
 public class GuaranteeComponentsDto {
 
     private BigInteger id;
+
+
     private Integer guaranteeComponent;
 }

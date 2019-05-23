@@ -16,9 +16,9 @@ import java.util.List;
 
 public class CountryRepositoryImpl extends AbstractCrudGenericRepository<Country, BigInteger> implements CountryRepository {
 
-    public List<Country> findByNameCountry(CountryDto countryDto) {
+    public Country findByNameCountry(String countryName) {
 
-        List<Country> entity = new ArrayList<>();
+        Country entity = new Country();
         EntityManager entityManager = null;
         EntityTransaction transaction = null;
 
@@ -27,8 +27,8 @@ public class CountryRepositoryImpl extends AbstractCrudGenericRepository<Country
             transaction = entityManager.getTransaction();
             transaction.begin();
             entity = entityManager.createQuery("select c from Country c where lower(c.name) like :name ", Country.class)
-                    .setParameter("name", countryDto.getName().trim().toLowerCase())
-                    .getResultList();
+                    .setParameter("name", countryName.trim().toLowerCase())
+                    .getSingleResult();
             transaction.commit();
 
 

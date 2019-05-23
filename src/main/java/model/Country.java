@@ -19,8 +19,15 @@ import java.util.Set;
 public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+
     private BigInteger id;
     private String name;
+
+    public Country(String name) {
+        this.name = name;
+    }
+
+
 
     @OneToMany(mappedBy = "country", cascade = CascadeType.PERSIST)
     private Set<Customer> customers;

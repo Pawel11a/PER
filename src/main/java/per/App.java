@@ -8,8 +8,10 @@ import model.Customer;
 import repositories.impl.CategoryRepositoryImpl;
 import repositories.impl.CountryRepositoryImpl;
 import repositories.impl.CustomerRepositoryImpl;
+import repositories.impl.ErrorRepositoryImpl;
 import service.CategoryService;
 import service.CustomerService;
+import service.ErrorService;
 import service.ValidateService;
 
 import javax.persistence.EntityManager;
@@ -37,10 +39,14 @@ public class App {
         CustomerRepositoryImpl customerRepository = new CustomerRepositoryImpl();
        CountryRepositoryImpl countryRepository = new CountryRepositoryImpl();
 
+
 //        ValidateService.nameIsCorrect("A");
 
         CategoryService categoryService = new CategoryService(categoryRepository);
         CustomerService customerService = new CustomerService(customerRepository, countryRepository);
+
+
+
 
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setName("ELEKTRONIKA");
@@ -52,9 +58,10 @@ public class App {
         customerDto.setName("JAN");
         customerDto.setSurname("KOWAL");
         customerDto.setAge(18);
-        customerDto.setCountryDto(countryDto);
+        customerDto.setCountryName("POLAND");
 
         try {
+
             customerService.addCustomer();
         } catch (MyException me) {
             LOGGER.warning(me + "");

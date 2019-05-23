@@ -1,26 +1,26 @@
 package service;
 
-import dto.CategoryDto;
 import dto.CustomerDto;
-import dto.Errors;
-import dto.ErrorsEnum;
+import dto.ErrorsEnumDto;
 import exceptions.MyException;
 import lombok.RequiredArgsConstructor;
 import map.ModelMappers;
-import model.Category;
+import model.Country;
 import model.Customer;
+import model.Errors;
 import org.apache.commons.lang3.StringUtils;
-import repositories.impl.CategoryRepositoryImpl;
 import repositories.impl.CountryRepositoryImpl;
 import repositories.impl.CustomerRepositoryImpl;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 @RequiredArgsConstructor
 public class CustomerService {
 
+    private static Logger LOGGER = Logger.getLogger("CustomerService");
 
     private final CustomerRepositoryImpl customerRepository;
     private final CountryRepositoryImpl countryRepository;
@@ -47,11 +47,24 @@ public class CustomerService {
         validateCustomer(customerDto, countryName);
 
 
+        Country findCountryByName = countryRepository.findByNameCountry(countryName);
 
-        if(!StringUtils.isEmpty(countryName)){
-//            countryRepository
+        if (findCountryByName != null) {
+
+            customerDto.setCountryName(findCountryByName.getName());
+
+            Customer findExistsTheSameCustomer = customerRepository.findByNameAndSurnameAndCountry(customerDto);
+
+            if (findExistsTheSameCustomer != null) {
+                Errors customerError = new Errors(ErrorsEnumDto.CUSTOMER.name(), "add customer");
+                ErrorService.saveError(customerError);
+                throw new MyException("Customer is exists in DB", customerError);
+            }
+        }else{
+            Country country = new Country(countryName);
+            countryRepository.saveOrUpdate(country);
+
         }
-
 
 
 //        customerDto.setCountryDto();
@@ -72,9 +85,9 @@ public class CustomerService {
 //            }
 //        }
 
-        List<Customer> findByName = customerRepository.findByNameAndSurnameAndCountry(customerDto);
+        Customer findByName = customerRepository.findByNameAndSurnameAndCountry(customerDto);
 
-        if (findByName == null || findByName.isEmpty()) {
+        if (findByName == null) {
 
 //            var mapperCategory = Mappers.getMapper(CategoryMapper.class);
 //            Category category = mapperCategory.categoryDtoToCategory(categoryDto);
@@ -93,26 +106,32 @@ public class CustomerService {
 
         List<Errors> lists = new ArrayList<>();
 
-        if(customerDto == null){
-
-            lists.add(new Errors(ErrorsEnum.CUSTOMER, "customer objectis empty", "add-customer-100"));
+        Errors customerError = new Errors(ErrorsEnumDto.CUSTOMER.name(), "add customer");
+        if (customerDto == null) {
+            Errors customerEmpty = new Errors(ErrorsEnumDto.CUSTOMER.name(), "customer objectis empty");
+            lists.add(customerEmpty);
+            ErrorService.saveError(customerError);
             throw new MyException("Customer data are incorrect", lists);
         }
 
-        if(StringUtils.isEmpty(customerDto.getName()) || !ValidateService.nameIsCorrect(customerDto.getName())){
-            lists.add(new Errors(ErrorsEnum.CUSTOMER, "customer name is incorrect", "add-customer-100"));
+        if (StringUtils.isEmpty(customerDto.getName()) || !ValidateService.nameIsCorrect(customerDto.getName())) {
+            lists.add(new Errors(ErrorsEnumDto.CUSTOMER.name(), "customer name is incorrect"));
         }
 
-        if(StringUtils.isEmpty(customerDto.getSurname()) || !ValidateService.nameIsCorrect(customerDto.getSurname())){
-            lists.add(new Errors(ErrorsEnum.CUSTOMER, "customer surname is incorrect", "add-customer-200"));
+        if (StringUtils.isEmpty(customerDto.getSurname()) || !ValidateService.nameIsCorrect(customerDto.getSurname())) {
+            lists.add(new Errors(ErrorsEnumDto.CUSTOMER.name(), "customer surname is incorrect"));
         }
 
-//        if(customerDto.getCountryDto()){
-//
-//        }
+        if (StringUtils.isEmpty(countryName) || !ValidateService.nameIsCorrect(countryName)) {
+            lists.add(new Errors(ErrorsEnumDto.CUSTOMER.name(), "country name is incorrect"));
+
+        }
 
 
-        if(lists.isEmpty()){
+        if (!lists.isEmpty()) {
+            ErrorService.saveError(customerError);
+
+            lists.stream().forEach(item -> LOGGER.warning(item.getDate() + " " +item.getMessage()));
             throw new MyException("Customer data are incorrect", lists);
         }
 

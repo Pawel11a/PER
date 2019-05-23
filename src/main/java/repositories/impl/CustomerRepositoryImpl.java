@@ -14,9 +14,9 @@ import java.util.List;
 
 public class CustomerRepositoryImpl extends AbstractCrudGenericRepository<Customer, BigInteger> implements CustomerRepository {
 
-    public List<Customer> findByNameAndSurnameAndCountry(CustomerDto customerDto) {
+    public Customer findByNameAndSurnameAndCountry(CustomerDto customerDto) {
 
-        List<Customer> entity = new ArrayList<>();
+        Customer entity = new Customer();
         EntityManager entityManager = null;
         EntityTransaction transaction = null;
 
@@ -27,8 +27,8 @@ public class CustomerRepositoryImpl extends AbstractCrudGenericRepository<Custom
             entity = entityManager.createQuery("select c from Customer c where lower(c.name) like :name and lower(c.surname) like :surname and lower(c.country) like :country", Customer.class)
                     .setParameter("name", customerDto.getName().trim().toLowerCase())
                     .setParameter("surname", customerDto.getSurname().trim().toLowerCase())
-                    .setParameter("country", customerDto.getCountryDto().getName().trim().toLowerCase())
-                    .getResultList();
+                    .setParameter("country", customerDto.getCountryName().trim().toLowerCase())
+                    .getSingleResult();
             transaction.commit();
 
 

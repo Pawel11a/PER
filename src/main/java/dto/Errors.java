@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -15,11 +14,11 @@ import java.util.Date;
 public class Errors {
 
     private BigInteger id;
-    private ErrorsEnum date;
+    private ErrorsEnumDto date;
     private String message;
     private String code;
 
-    public Errors(ErrorsEnum date, String message, String code) {
+    public Errors(ErrorsEnumDto date, String message, String code) {
         this.date = date;
         this.message = message;
         this.code = code;
