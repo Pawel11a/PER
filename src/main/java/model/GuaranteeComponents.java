@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import model.enums.EGuarantee;
+//import model.enums.EGuarantee;
 
 import javax.persistence.*;
 import java.math.BigInteger;

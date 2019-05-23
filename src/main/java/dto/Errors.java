@@ -15,7 +15,13 @@ import java.util.Date;
 public class Errors {
 
     private BigInteger id;
-    private Date date;
+    private ErrorsEnum date;
     private String message;
+    private String code;
 
+    public Errors(ErrorsEnum date, String message, String code) {
+        this.date = date;
+        this.message = message;
+        this.code = code;
+    }
 }

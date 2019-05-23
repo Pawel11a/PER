@@ -2,6 +2,7 @@ package service;
 
 
 import exceptions.MyException;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,10 @@ public class ValidateService {
     private List<MyException> validates = new ArrayList<>();
 
     public static boolean nameIsCorrect(String data) {
+
+        if (StringUtils.isEmpty(data)) {
+            return false;
+        }
 
         Pattern pattern = Pattern.compile("^[A-Z]+[ ]*");
         Matcher matcher = pattern.matcher(data);

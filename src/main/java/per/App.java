@@ -6,6 +6,7 @@ import dto.CustomerDto;
 import exceptions.MyException;
 import model.Customer;
 import repositories.impl.CategoryRepositoryImpl;
+import repositories.impl.CountryRepositoryImpl;
 import repositories.impl.CustomerRepositoryImpl;
 import service.CategoryService;
 import service.CustomerService;
@@ -34,15 +35,15 @@ public class App {
         ValidateService validateService = new ValidateService();
         CategoryRepositoryImpl categoryRepository = new CategoryRepositoryImpl();
         CustomerRepositoryImpl customerRepository = new CustomerRepositoryImpl();
+       CountryRepositoryImpl countryRepository = new CountryRepositoryImpl();
 
 //        ValidateService.nameIsCorrect("A");
 
         CategoryService categoryService = new CategoryService(categoryRepository);
-        CustomerService customerService = new CustomerService(customerRepository);
+        CustomerService customerService = new CustomerService(customerRepository, countryRepository);
 
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setName("ELEKTRONIKA");
-//===========
 
         CountryDto countryDto = new CountryDto();
         countryDto.setName("POLSKA");
@@ -54,7 +55,7 @@ public class App {
         customerDto.setCountryDto(countryDto);
 
         try {
-            customerService.addCustomer(customerDto);
+            customerService.addCustomer();
         } catch (MyException me) {
             LOGGER.warning(me + "");
         }
