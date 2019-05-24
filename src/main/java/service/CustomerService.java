@@ -30,7 +30,7 @@ public class CustomerService {
 
     public void addCustomer() {
 
-        LOGGER.info("Start operation addCustomer(), saved customer");
+        LOGGER.info("Start operation addCustomer()");
 
         CustomerDto customerDto = new CustomerDto();
         CountryDto countryDto = new CountryDto();

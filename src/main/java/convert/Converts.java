@@ -2,8 +2,14 @@ package convert;
 
 import dto.CountryDto;
 import dto.CustomerDto;
+import dto.ProductDto;
+import dto.ShopDto;
+import dto.StockDto;
 import model.Country;
 import model.Customer;
+import model.Product;
+import model.Shop;
+import model.Stock;
 
 public class Converts {
 
@@ -48,5 +54,61 @@ public class Converts {
                 .build();
 
     }
+
+//    public static Shop fromShopDtoToShop(ShopDto shopDto){
+//
+//        return Shop.builder()
+//                .id(shopDto.getId())
+//                .name(shopDto.getName())
+//                .country(fromCountryDtoToCountry(shopDto.getCountryDto()))
+//                .stocks(shopDto.getStocksDto());
+//    }
+//
+//    public static Stock fromStockDtoToStock(StockDto stockDto) {
+//
+//        return Stock.builder()
+//                .id(stockDto.getId())
+//                .product(stockDto.getProductDto())
+//                .quantity(stockDto.getQuantity())
+//                .shop(stockDto.getShopDto())
+//                .build();
+//
+//    }
+//
+//    public static StockDto fromStockToStockDto(Stock stock) {
+//
+//        return Stock.builder()
+//                .id(stockDto.getId())
+//                .product(stockDto.getProductDto())
+//                .quantity(stockDto.getQuantity())
+//                .shop(stockDto.getShopDto())
+//                .build();
+//
+//    }
+//
+//    public static ProductDto fromProductToProductDto(Product product) {
+//
+//        return ProductDto.builder()
+//                .id(product.getId())
+//                .categoryDto(product.getCategory())
+//                .name(product.getName())
+//                .price(product.getPrice())
+//                .producerDto(product.getProducer())
+//                .build();
+//
+//    }
+//
+//    public static Product fromProductDtoToProduct(ProductDto productDto) {
+//
+//        return Product.builder()
+//                .id(product.getId())
+//                .category(product.getCategory())
+//                .name(product.getName())
+//                .price(product.getPrice())
+//                .producerDto(product.getProducer())
+//                .build();
+//
+//    }
+
 
 }
