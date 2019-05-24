@@ -28,7 +28,7 @@ public class Customer {
     @OneToMany(mappedBy = "customer",cascade = CascadeType.PERSIST)
     private Set<CustomerOrder> customerOrders;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade={ CascadeType.PERSIST, CascadeType.MERGE}) //samo to CascadeType.PERSIST zapisuje do country tylko id dlaczego?
     @JoinColumn(name = "country_id")
     private Country country;
 

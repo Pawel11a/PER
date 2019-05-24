@@ -48,17 +48,17 @@ public class App {
 
 
 
-        CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setName("ELEKTRONIKA");
-
-        CountryDto countryDto = new CountryDto();
-        countryDto.setName("POLSKA");
-
-        CustomerDto customerDto = new CustomerDto();
-        customerDto.setName("JAN");
-        customerDto.setSurname("KOWAL");
-        customerDto.setAge(18);
-        customerDto.setCountryName("POLAND");
+//        CategoryDto categoryDto = new CategoryDto();
+//        categoryDto.setName("ELEKTRONIKA");
+//
+//        CountryDto countryDto = new CountryDto();
+//        countryDto.setName("POLSKA");
+//
+//        CustomerDto customerDto = new CustomerDto();
+//        customerDto.setName("JAN");
+//        customerDto.setSurname("KOWAL");
+//        customerDto.setAge(18);
+//        customerDto.setCountryName("POLAND");
 
         try {
 
@@ -67,11 +67,11 @@ public class App {
             LOGGER.warning(me + "");
         }
 
-        try {
-            categoryService.addCategory(categoryDto);
-        } catch (MyException me) {
-            LOGGER.warning(me + "");
-        }
+//        try {
+//            categoryService.addCategory(categoryDto);
+//        } catch (MyException me) {
+//            LOGGER.warning(me + "");
+//        }
         /*
                 var countryRepository = new CountryRepositoryImpl();
         var companyRepository = new CompanyRepositoryImpl();

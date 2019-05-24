@@ -1,5 +1,8 @@
 package service;
 
+import convert.Converts;
+import dto.CategoryDto;
+import dto.CountryDto;
 import dto.CustomerDto;
 import dto.ErrorsEnumDto;
 import exceptions.MyException;
@@ -27,31 +30,19 @@ public class CustomerService {
 
     public void addCustomer() {
 
+        LOGGER.info("Start operation addCustomer(), saved customer");
+
         CustomerDto customerDto = new CustomerDto();
-        Scanner sc = new Scanner(System.in);
+        CountryDto countryDto = new CountryDto();
+        enterCustomerData(customerDto, countryDto);
 
+        validateCustomer(customerDto, countryDto);
 
-        System.out.println("Podaj imie klienta: ");
-        customerDto.setName(sc.nextLine());
-
-        System.out.println("Podaj nazwisko klienta: ");
-        customerDto.setSurname(sc.nextLine());
-
-        System.out.println("Podaj wiek klienta: ");
-        customerDto.setAge(sc.nextInt());
-        sc.nextLine();
-
-        System.out.println("Podaj nazwe kraju: ");
-        String countryName = sc.nextLine();
-
-        validateCustomer(customerDto, countryName);
-
-
-        Country findCountryByName = countryRepository.findByNameCountry(countryName);
+        Country findCountryByName = countryRepository.findByNameCountry(countryDto.getName());
 
         if (findCountryByName != null) {
 
-            customerDto.setCountryName(findCountryByName.getName());
+            customerDto.setCountry(Converts.fromCountryToCountryDto(findCountryByName));
 
             Customer findExistsTheSameCustomer = customerRepository.findByNameAndSurnameAndCountry(customerDto);
 
@@ -60,49 +51,47 @@ public class CustomerService {
                 ErrorService.saveError(customerError);
                 throw new MyException("Customer is exists in DB", customerError);
             }
-        }else{
-            Country country = new Country(countryName);
-            countryRepository.saveOrUpdate(country);
+            try {
+                customerRepository.saveOrUpdate(Converts.fromCustomerDtoToCustomer(customerDto));
 
-        }
-
-
-//        customerDto.setCountryDto();
-
-//        if (customerDto == null) {
-//            throw new MyException("CustomerService - method addCustomer categoryDto is null");
-//        } else {
-//            if (StringUtils.isEmpty(customerDto.getName()) || StringUtils.isEmpty(customerDto.getSurname()) || customerDto.getAge() == null) {
-//                throw new MyException("CustomerService - method addCustomer name, surname, age is incorect");
-//            } else {
-//                if (!ValidateService.nameIsCorrect(customerDto.getName())) {
-//                    throw new MyException("CustomerService - method addCustomer, nameIsCorrect name is incorrect : " + customerDto.getName());
-//                } else if (!ValidateService.nameIsCorrect(customerDto.getSurname())) {
-//                    throw new MyException("CustomerService - method addCustomer, nameIsCorrect surname is incorrect : " + customerDto.getSurname());
-//                } else if (!ValidateService.ageIsEqualsOrBiggerThan18(customerDto.getAge())) {
-//                    throw new MyException("CustomerService - method addCustomer, ageIsEqualsOrBiggerThan18 age is incorrect : " + customerDto.getAge());
-//                }
-//            }
-//        }
-
-        Customer findByName = customerRepository.findByNameAndSurnameAndCountry(customerDto);
-
-        if (findByName == null) {
-
-//            var mapperCategory = Mappers.getMapper(CategoryMapper.class);
-//            Category category = mapperCategory.categoryDtoToCategory(categoryDto);
-            Customer customer = ModelMappers.fromCustomerDtoToCustomer(customerDto);
-
-
-            customerRepository.saveOrUpdate(customer);
+                LOGGER.info("End operation addCustomer(), saved customer");
+            } catch (Exception ex) {
+                Errors customerError = new Errors(ErrorsEnumDto.CUSTOMER.name(), "add customer");
+                ErrorService.saveError(customerError);
+                throw new MyException("Error when try addCustomer to save in DB ", customerError);
+            }
         } else {
-            throw new MyException("CustomerService - method addCustomer name : " + customerDto.getName() + " is exists");
-        }
 
+            customerDto.setCountry(countryDto);
+            customerRepository.saveOrUpdate(Converts.fromCustomerDtoToCustomer(customerDto));
+
+            LOGGER.info("End operation addCustomer(), saved customer");
+        }
 
     }
 
-    private void validateCustomer(CustomerDto customerDto, String countryName) {
+    private void enterCustomerData(CustomerDto customerDto, CountryDto countryDto) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Podaj imie klienta: ");
+        customerDto.setName(sc.nextLine());
+        System.out.println("Podaj nazwisko klienta: ");
+        customerDto.setSurname(sc.nextLine());
+        System.out.println("Podaj wiek klienta: ");
+        Integer age = null;
+        try {
+            age = sc.nextInt();
+        } catch (Exception ex) {
+            LOGGER.warning("employee's age is incorrect");
+        }
+        customerDto.setAge(age);
+        sc.nextLine();
+
+        System.out.println("Podaj nazwe kraju: ");
+        countryDto.setName(sc.nextLine());
+    }
+
+    private void validateCustomer(CustomerDto customerDto, CountryDto countryDto) {
 
         List<Errors> lists = new ArrayList<>();
 
@@ -122,19 +111,19 @@ public class CustomerService {
             lists.add(new Errors(ErrorsEnumDto.CUSTOMER.name(), "customer surname is incorrect"));
         }
 
-        if (StringUtils.isEmpty(countryName) || !ValidateService.nameIsCorrect(countryName)) {
-            lists.add(new Errors(ErrorsEnumDto.CUSTOMER.name(), "country name is incorrect"));
-
+        if (customerDto.getAge() == null || customerDto.getAge() < 18) {
+            lists.add(new Errors(ErrorsEnumDto.CUSTOMER.name(), "customer surname is incorrect"));
         }
 
+        if (StringUtils.isEmpty(countryDto.getName()) || !ValidateService.nameIsCorrect(countryDto.getName())) {
+            lists.add(new Errors(ErrorsEnumDto.CUSTOMER.name(), "country name is incorrect"));
+        }
 
         if (!lists.isEmpty()) {
             ErrorService.saveError(customerError);
 
-            lists.stream().forEach(item -> LOGGER.warning(item.getDate() + " " +item.getMessage()));
-            throw new MyException("Customer data are incorrect", lists);
+            lists.stream().forEach(item -> LOGGER.warning(item.getDate() + " " + item.getMessage()));
+            throw new MyException("Add customer data are incorrect", lists);
         }
-
-
     }
 }

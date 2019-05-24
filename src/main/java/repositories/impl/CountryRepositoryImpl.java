@@ -13,12 +13,15 @@ import javax.persistence.EntityTransaction;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class CountryRepositoryImpl extends AbstractCrudGenericRepository<Country, BigInteger> implements CountryRepository {
 
+    private static Logger LOGGER = Logger.getLogger("CountryRepositoryImpl");
+
     public Country findByNameCountry(String countryName) {
 
-        Country entity = new Country();
+        List<Country> entity = new ArrayList<>();
         EntityManager entityManager = null;
         EntityTransaction transaction = null;
 
@@ -28,7 +31,7 @@ public class CountryRepositoryImpl extends AbstractCrudGenericRepository<Country
             transaction.begin();
             entity = entityManager.createQuery("select c from Country c where lower(c.name) like :name ", Country.class)
                     .setParameter("name", countryName.trim().toLowerCase())
-                    .getSingleResult();
+                    .getResultList();
             transaction.commit();
 
 
@@ -36,12 +39,13 @@ public class CountryRepositoryImpl extends AbstractCrudGenericRepository<Country
             if (transaction != null) {
                 transaction.rollback();
             }
+            LOGGER.warning("Error find a country " + e);
             throw new MyException("CountryRepository - findByNameCountry method exception, rollback operation");
         } finally {
             if (entityManager != null) {
                 entityManager.close();
             }
         }
-        return entity;
+        return entity.isEmpty() ? null : entity.get(0);
     }
 }

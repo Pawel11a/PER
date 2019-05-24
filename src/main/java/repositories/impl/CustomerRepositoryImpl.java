@@ -27,7 +27,7 @@ public class CustomerRepositoryImpl extends AbstractCrudGenericRepository<Custom
             entity = entityManager.createQuery("select c from Customer c where lower(c.name) like :name and lower(c.surname) like :surname and lower(c.country) like :country", Customer.class)
                     .setParameter("name", customerDto.getName().trim().toLowerCase())
                     .setParameter("surname", customerDto.getSurname().trim().toLowerCase())
-                    .setParameter("country", customerDto.getCountryName().trim().toLowerCase())
+                    .setParameter("country", customerDto.getCountry().getName().trim().toLowerCase())
                     .getSingleResult();
             transaction.commit();
 
