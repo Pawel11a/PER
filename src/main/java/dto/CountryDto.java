@@ -21,8 +21,4 @@ public class CountryDto {
     private BigInteger id;
     private String name;
 
-    private Set<Customer> customers;
-    private Set<Producer> producers;
-    private Set<Shop> shops;
-
 }
