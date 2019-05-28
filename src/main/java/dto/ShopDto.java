@@ -18,6 +18,5 @@ public class ShopDto {
     private BigInteger id;
     private String name;
     private CountryDto countryDto;
-    private Set<StockDto> stocksDto;
 
 }

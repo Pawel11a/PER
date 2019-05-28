@@ -3,26 +3,30 @@ package model;
 
 import dto.ErrorsEnumDto;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.math.BigInteger;
 import java.util.Objects;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
+@Table(name = "customer_order")
 public class Errors {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private BigInteger id;
     private String date;
     private String message;
-
-    public Errors() {
-    }
-    //NAZWA_TABELI;INFORMACJA O BŁĘDZIE.
-
 
     public String getDate() {
         return date;

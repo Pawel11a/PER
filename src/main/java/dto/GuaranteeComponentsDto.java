@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import model.Product;
 
 import java.math.BigInteger;
 
@@ -14,7 +15,6 @@ import java.math.BigInteger;
 public class GuaranteeComponentsDto {
 
     private BigInteger id;
-
-
     private Integer guaranteeComponent;
+    private ProductDto productDto;
 }

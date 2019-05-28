@@ -14,11 +14,11 @@ import java.math.BigInteger;
 public class Errors {
 
     private BigInteger id;
-    private ErrorsEnumDto date;
+    private String date;
     private String message;
     private String code;
 
-    public Errors(ErrorsEnumDto date, String message, String code) {
+    public Errors(String date, String message, String code) {
         this.date = date;
         this.message = message;
         this.code = code;
