@@ -40,25 +40,9 @@ public class App {
        CountryRepositoryImpl countryRepository = new CountryRepositoryImpl();
 
 
-//        ValidateService.nameIsCorrect("A");
-
         CategoryService categoryService = new CategoryService(categoryRepository);
         CustomerService customerService = new CustomerService(customerRepository, countryRepository);
 
-
-
-
-//        CategoryDto categoryDto = new CategoryDto();
-//        categoryDto.setName("ELEKTRONIKA");
-//
-//        CountryDto countryDto = new CountryDto();
-//        countryDto.setName("POLSKA");
-//
-//        CustomerDto customerDto = new CustomerDto();
-//        customerDto.setName("JAN");
-//        customerDto.setSurname("KOWAL");
-//        customerDto.setAge(18);
-//        customerDto.setCountryName("POLAND");
 
         try {
 
@@ -66,17 +50,6 @@ public class App {
         } catch (MyException me) {
             LOGGER.warning(me + "");
         }
-
-//        try {
-//            categoryService.addCategory(categoryDto);
-//        } catch (MyException me) {
-//            LOGGER.warning(me + "");
-//        }
-        /*
-                var countryRepository = new CountryRepositoryImpl();
-        var companyRepository = new CompanyRepositoryImpl();
-        var appService = new AppService(countryRepository, companyRepository);
-         */
 
     }
 

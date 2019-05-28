@@ -11,12 +11,15 @@ import javax.persistence.EntityTransaction;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class CustomerRepositoryImpl extends AbstractCrudGenericRepository<Customer, BigInteger> implements CustomerRepository {
 
+    private static Logger LOGGER = Logger.getLogger("CustomerRepositoryImpl");
+
     public Customer findByNameAndSurnameAndCountry(CustomerDto customerDto) {
 
-        Customer entity = new Customer();
+        List<Customer> entity = new ArrayList<>();
         EntityManager entityManager = null;
         EntityTransaction transaction = null;
 
@@ -24,15 +27,23 @@ public class CustomerRepositoryImpl extends AbstractCrudGenericRepository<Custom
             entityManager = entityManagerFactory.createEntityManager();
             transaction = entityManager.getTransaction();
             transaction.begin();
-            entity = entityManager.createQuery("select c from Customer c where lower(c.name) like :name and lower(c.surname) like :surname and lower(c.country) like :country", Customer.class)
+            entity = entityManager.createQuery("select c from Customer c " +
+                    " where lower(c.name) like :name and lower(c.surname)" +
+                    " like :surname AND lower(c.country.name) like :country ", Customer.class)
                     .setParameter("name", customerDto.getName().trim().toLowerCase())
                     .setParameter("surname", customerDto.getSurname().trim().toLowerCase())
                     .setParameter("country", customerDto.getCountry().getName().trim().toLowerCase())
-                    .getSingleResult();
+                    .getResultList();
             transaction.commit();
+
+            if (entity.isEmpty()) {
+                return null;
+            }
+            return entity.get(0);
 
 
         } catch (Exception e) {
+            LOGGER.warning("Error executed query - findByNameAndSurnameAndCountry, " + e);
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -42,6 +53,5 @@ public class CustomerRepositoryImpl extends AbstractCrudGenericRepository<Custom
                 entityManager.close();
             }
         }
-        return entity;
     }
 }
