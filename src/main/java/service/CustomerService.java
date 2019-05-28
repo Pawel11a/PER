@@ -1,6 +1,7 @@
 package service;
 
 import convert.Converts;
+import convert.Mapper;
 import dto.CategoryDto;
 import dto.CountryDto;
 import dto.CustomerDto;
@@ -42,7 +43,7 @@ public class CustomerService {
 
         if (findCountryByName != null) {
 
-            customerDto.setCountry(Converts.fromCountryToCountryDto(findCountryByName));
+            customerDto.setCountry(Mapper.fromCountryToCountryDto(findCountryByName));
 
             Customer findExistsTheSameCustomer = customerRepository.findByNameAndSurnameAndCountry(customerDto);
 
@@ -52,7 +53,7 @@ public class CustomerService {
                 throw new MyException("Customer is exists in DB", customerError);
             }
             try {
-                customerRepository.saveOrUpdate(Converts.fromCustomerDtoToCustomer(customerDto));
+                customerRepository.saveOrUpdate(Mapper.fromCustomerDtoToCustomer(customerDto));
 
                 LOGGER.info("End operation addCustomer(), saved customer");
             } catch (Exception ex) {
@@ -63,7 +64,7 @@ public class CustomerService {
         } else {
 
             customerDto.setCountry(countryDto);
-            customerRepository.saveOrUpdate(Converts.fromCustomerDtoToCustomer(customerDto));
+            customerRepository.saveOrUpdate(Mapper.fromCustomerDtoToCustomer(customerDto));
 
             LOGGER.info("End operation addCustomer(), saved customer");
         }

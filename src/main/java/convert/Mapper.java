@@ -58,6 +58,7 @@ public class Mapper {
     public static Customer fromCustomerDtoToCustomer(CustomerDto customerDto) {
         return customerDto == null ? null : Customer.builder()
                 .id(customerDto.getId())
+                .surname(customerDto.getSurname())
                 .name(customerDto.getName())
                 .age(customerDto.getAge())
                 .country(fromCountryDtoToCountry(customerDto.getCountry()))
