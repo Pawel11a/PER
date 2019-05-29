@@ -3,7 +3,7 @@ package dto;
 public enum ErrorsEnumDto {
 
 
-    CATEGORY("category"), COUNTRY("country"), CUSTOMERORDER("customer_order"), CUSTOMER("customer"), GUARANTEECOMPONENTS("guarantee_components"), PAYMENT("payment"), PRODUCER("producer"),
+    CATEGORY("category"), COUNTRY("country"), CUSTOMERORDER("customer_order"), PRODUCER("customer"), GUARANTEECOMPONENTS("guarantee_components"), PAYMENT("payment"),
     PRODUCT("product"), SHOP("shop"), STOCK("stock"), TRADE("trade");
 
     private String name;

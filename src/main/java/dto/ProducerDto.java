@@ -15,7 +15,7 @@ public class ProducerDto {
 
     private BigInteger id;
     private String name;
-    private CountryDto countryDto;
-    private TradeDto tradeDto;
+    private String countryName;
+    private String tradeName;
 
 }

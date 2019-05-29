@@ -23,6 +23,10 @@ public class Trade {
     private BigInteger id;
     private String name;
 
+    public Trade(String name) {
+        this.name = name;
+    }
+
     @OneToMany(mappedBy = "trade", cascade = CascadeType.PERSIST)
     private Set<Producer> producers;
 

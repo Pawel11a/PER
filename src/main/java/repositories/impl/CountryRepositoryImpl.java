@@ -48,4 +48,5 @@ public class CountryRepositoryImpl extends AbstractCrudGenericRepository<Country
         }
         return entity.isEmpty() ? null : entity.get(0);
     }
+
 }

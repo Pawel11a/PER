@@ -9,10 +9,13 @@ import repositories.impl.CategoryRepositoryImpl;
 import repositories.impl.CountryRepositoryImpl;
 import repositories.impl.CustomerRepositoryImpl;
 import repositories.impl.ErrorRepositoryImpl;
+import repositories.impl.ProducerRepositoryImpl;
+import repositories.impl.TradeRepositoryImpl;
 import service.CategoryService;
 import service.CountryService;
 import service.CustomerService;
 import service.ErrorService;
+import service.ProducerService;
 import service.ValidateService;
 
 import javax.persistence.EntityManager;
@@ -39,6 +42,8 @@ public class App {
         CategoryRepositoryImpl categoryRepository = new CategoryRepositoryImpl();
         CustomerRepositoryImpl customerRepository = new CustomerRepositoryImpl();
        CountryRepositoryImpl countryRepository = new CountryRepositoryImpl();
+       ProducerRepositoryImpl producerRepository = new ProducerRepositoryImpl();
+       TradeRepositoryImpl tradeRepository = new TradeRepositoryImpl();
 
 //ok dodawanie użytkownika
 
@@ -47,9 +52,11 @@ public class App {
 //        CategoryService categoryService = new CategoryService(categoryRepository);
 
         CountryService countryService = new CountryService(countryRepository);
+        ProducerService producerService = new ProducerService(producerRepository, countryRepository, tradeRepository);
 
         try {
-            countryService.addCountry();
+            producerService.addProducer();
+//            countryService.addCountry();
 //            customerService.addCustomer();
         } catch (MyException me) {
             LOGGER.warning(me + "");
