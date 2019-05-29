@@ -21,12 +21,12 @@ public class Country {
     @GeneratedValue(strategy = GenerationType.AUTO)
 
     private BigInteger id;
+    @Column(name="name", unique=true)
     private String name;
 
     public Country(String name) {
         this.name = name;
     }
-
 
 
     @OneToMany(mappedBy = "country", cascade = CascadeType.PERSIST)

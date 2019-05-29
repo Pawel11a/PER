@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -14,11 +15,11 @@ import java.math.BigInteger;
 public class Errors {
 
     private BigInteger id;
-    private String date;
+    private LocalDateTime date;
     private String message;
     private String code;
 
-    public Errors(String date, String message, String code) {
+    public Errors(LocalDateTime date, String message, String code) {
         this.date = date;
         this.message = message;
         this.code = code;

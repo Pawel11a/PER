@@ -10,6 +10,7 @@ import repositories.impl.CountryRepositoryImpl;
 import repositories.impl.CustomerRepositoryImpl;
 import repositories.impl.ErrorRepositoryImpl;
 import service.CategoryService;
+import service.CountryService;
 import service.CustomerService;
 import service.ErrorService;
 import service.ValidateService;
@@ -39,14 +40,17 @@ public class App {
         CustomerRepositoryImpl customerRepository = new CustomerRepositoryImpl();
        CountryRepositoryImpl countryRepository = new CountryRepositoryImpl();
 
+//ok dodawanie użytkownika
 
-        CategoryService categoryService = new CategoryService(categoryRepository);
-        CustomerService customerService = new CustomerService(customerRepository, countryRepository);
+//        CustomerService customerService = new CustomerService(customerRepository, countryRepository);
+//        -----------------------
+//        CategoryService categoryService = new CategoryService(categoryRepository);
 
+        CountryService countryService = new CountryService(countryRepository);
 
         try {
-
-            customerService.addCustomer();
+            countryService.addCountry();
+//            customerService.addCustomer();
         } catch (MyException me) {
             LOGGER.warning(me + "");
         }

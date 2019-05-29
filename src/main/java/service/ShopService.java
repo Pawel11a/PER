@@ -11,6 +11,7 @@ import model.Errors;
 import org.apache.commons.lang3.StringUtils;
 import repositories.impl.CountryRepositoryImpl;
 import repositories.impl.CustomerRepositoryImpl;
+import utils.UtilsMethods;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,13 +40,11 @@ public class ShopService {
         Country findCountryByName = countryRepository.findByNameCountry(countryDto.getName());
 
 //TODO complete the operation
-        if(findCountryByName != null){
-
+        if (findCountryByName != null) {
 
 
             LOGGER.info("End operation addShop()");
         }
-
 
 
         LOGGER.info("End operation addShop()");
@@ -56,20 +55,20 @@ public class ShopService {
 
         List<Errors> lists = new ArrayList<>();
 
-        Errors shopError = new Errors(ErrorsEnumDto.SHOP.name(), "add shop");
+        Errors shopError = new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.SHOP.name() + " - add shop");
         if (shopDto == null) {
-            Errors shopEmpty = new Errors(ErrorsEnumDto.SHOP.name(), "shop object empty");
+            Errors shopEmpty = new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.SHOP.name() + " - shop object empty");
             lists.add(shopEmpty);
             ErrorService.saveError(shopEmpty);
             throw new MyException("Shop data are incorrect", lists);
         }
 
         if (StringUtils.isEmpty(shopDto.getName()) || !ValidateService.nameIsCorrect(shopDto.getName())) {
-            lists.add(new Errors(ErrorsEnumDto.SHOP.name(), "shop name is incorrect"));
+            lists.add(new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.SHOP.name() + " - shop name is incorrect"));
         }
 
         if (StringUtils.isEmpty(countryDto.getName()) || !ValidateService.nameIsCorrect(countryDto.getName())) {
-            lists.add(new Errors(ErrorsEnumDto.SHOP.name(), "shop name is incorrect"));
+            lists.add(new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.SHOP.name() + " - shop name is incorrect"));
         }
 
         if (!lists.isEmpty()) {

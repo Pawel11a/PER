@@ -1,20 +1,19 @@
 package service;
 
-import convert.Converts;
+
 import convert.Mapper;
-import dto.CategoryDto;
 import dto.CountryDto;
 import dto.CustomerDto;
 import dto.ErrorsEnumDto;
 import exceptions.MyException;
 import lombok.RequiredArgsConstructor;
-import map.ModelMappers;
 import model.Country;
 import model.Customer;
 import model.Errors;
 import org.apache.commons.lang3.StringUtils;
 import repositories.impl.CountryRepositoryImpl;
 import repositories.impl.CustomerRepositoryImpl;
+import utils.UtilsMethods;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +47,7 @@ public class CustomerService {
             Customer findExistsTheSameCustomer = customerRepository.findByNameAndSurnameAndCountry(customerDto);
 
             if (findExistsTheSameCustomer != null) {
-                Errors customerError = new Errors(ErrorsEnumDto.CUSTOMER.name(), "add customer");
+                Errors customerError = new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.CUSTOMER.name() + " add customer");
                 ErrorService.saveError(customerError);
                 throw new MyException("Customer is exists in DB", customerError);
             }
@@ -57,7 +56,7 @@ public class CustomerService {
 
                 LOGGER.info("End operation addCustomer(), saved customer");
             } catch (Exception ex) {
-                Errors customerError = new Errors(ErrorsEnumDto.CUSTOMER.name(), "add customer");
+                Errors customerError = new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.CUSTOMER.name() + " add customer");
                 ErrorService.saveError(customerError);
                 throw new MyException("Error when try addCustomer to save in DB ", customerError);
             }
@@ -96,28 +95,28 @@ public class CustomerService {
 
         List<Errors> lists = new ArrayList<>();
 
-        Errors customerError = new Errors(ErrorsEnumDto.CUSTOMER.name(), "add customer");
+        Errors customerError = new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.CUSTOMER.name() + " - add customer");
         if (customerDto == null) {
-            Errors customerEmpty = new Errors(ErrorsEnumDto.CUSTOMER.name(), "customer objectis empty");
+            Errors customerEmpty = new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.CUSTOMER.name() + " - -customer objectis empty");
             lists.add(customerEmpty);
             ErrorService.saveError(customerError);
             throw new MyException("Customer data are incorrect", lists);
         }
 
         if (StringUtils.isEmpty(customerDto.getName()) || !ValidateService.nameIsCorrect(customerDto.getName())) {
-            lists.add(new Errors(ErrorsEnumDto.CUSTOMER.name(), "customer name is incorrect"));
+            lists.add(new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.CUSTOMER.name() + " - customer name is incorrect"));
         }
 
         if (StringUtils.isEmpty(customerDto.getSurname()) || !ValidateService.nameIsCorrect(customerDto.getSurname())) {
-            lists.add(new Errors(ErrorsEnumDto.CUSTOMER.name(), "customer surname is incorrect"));
+            lists.add(new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.CUSTOMER.name() + " - customer surname is incorrect"));
         }
 
         if (customerDto.getAge() == null || customerDto.getAge() < 18) {
-            lists.add(new Errors(ErrorsEnumDto.CUSTOMER.name(), "customer surname is incorrect"));
+            lists.add(new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.CUSTOMER.name() + " - customer surname is incorrect"));
         }
 
         if (StringUtils.isEmpty(countryDto.getName()) || !ValidateService.nameIsCorrect(countryDto.getName())) {
-            lists.add(new Errors(ErrorsEnumDto.CUSTOMER.name(), "country name is incorrect"));
+            lists.add(new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.CUSTOMER.name() + " - country name is incorrect"));
         }
 
         if (!lists.isEmpty()) {

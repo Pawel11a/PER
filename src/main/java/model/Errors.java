@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 @Data
@@ -20,23 +22,23 @@ import java.util.Objects;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "customer_order")
+@Table(name = "errors")
 public class Errors {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private BigInteger id;
-    private String date;
+    private LocalDateTime date;
     private String message;
 
-    public String getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
-    public Errors(String date, String message) {
+    public Errors(LocalDateTime date, String message) {
         this.date = date;
         this.message = message;
     }
