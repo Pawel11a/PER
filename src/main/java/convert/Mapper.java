@@ -155,8 +155,8 @@ public class Mapper {
         return producer == null ? null : ProducerDto.builder()
                 .id(producer.getId())
                 .name(producer.getName())
-                .countryName(producer.getCountry().getName())
-                .tradeName(producer.getTrade().getName())
+                .country(fromCountryToCountryDto(producer.getCountry()))
+                .trade(fromTradeToTradeDto(producer.getTrade()))
                 .build();
     }
 
@@ -164,8 +164,8 @@ public class Mapper {
         return producerDto == null ? null : Producer.builder()
                 .id(producerDto.getId())
                 .name(producerDto.getName())
-//                .country(fromCountryDtoToCountry(producerDto.getCountryDto()))
-//                .trade(fromTradeDtoToTrade(producerDto.getTradeDto()))
+                .country(fromCountryDtoToCountry(producerDto.getCountry()))
+                .trade(fromTradeDtoToTrade(producerDto.getTrade()))
                 .build();
     }
 
