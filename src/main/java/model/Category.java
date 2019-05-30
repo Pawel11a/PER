@@ -23,6 +23,9 @@ public class Category {
     private BigInteger id;
     private String name;
 
+    public Category(String name) {
+        this.name = name;
+    }
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
     private Set<Product> products;

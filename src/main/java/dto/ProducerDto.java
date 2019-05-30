@@ -14,6 +14,10 @@ import java.math.BigInteger;
 @Builder
 public class ProducerDto {
 
+    public ProducerDto(String name) {
+        this.name = name;
+    }
+
     private BigInteger id;
     private String name;
     private CountryDto country;

@@ -22,6 +22,10 @@ public class Producer {
     private BigInteger id;
     private String name;
 
+    public Producer(String name) {
+        this.name = name;
+    }
+
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "country_id")
     private Country country;

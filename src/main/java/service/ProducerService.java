@@ -52,18 +52,22 @@ public class ProducerService {
 
         if (country == null) {
             country = new Country(producerDto.getCountry().getName());
-//            countryRepository.saveOrUpdate(country);
-
-
         }
 
         if (trade == null) {
             trade = new Trade(producerDto.getTrade().getName());
-//            tradeRepository.saveOrUpdate(trade);
         }
 
         producerDto.setCountry(Mapper.fromCountryToCountryDto(country));
         producerDto.setTrade(Mapper.fromTradeToTradeDto(trade));
+
+        Producer isExistsProducer = producerRepository.findByNameAndCountryAndTrade(producerDto);
+
+        if (isExistsProducer != null) {
+            Errors customerError = new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.PRODUCER.name() + " add producer");
+            ErrorService.saveError(customerError);
+            throw new MyException("Producer is exists in DB", customerError);
+        }
 
         Producer producer = Mapper.fromProducerDtoToProducer(producerDto);
 
