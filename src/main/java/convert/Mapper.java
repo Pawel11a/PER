@@ -174,8 +174,8 @@ public class Mapper {
                 .id(product.getId())
                 .name(product.getName())
                 .price(product.getPrice())
-                .categoryDto(fromCategoryToCategoryDto(product.getCategory()))
-                .producerDto(fromProducerToProducerDto(product.getProducer()))
+//                .categoryDto(fromCategoryToCategoryDto(product.getCategory()))
+//                .producerDto(fromProducerToProducerDto(product.getProducer()))
                 .build();
     }
 
@@ -184,8 +184,8 @@ public class Mapper {
                 .id(productDto.getId())
                 .name(productDto.getName())
                 .price(productDto.getPrice())
-                .category(fromCategoryDtoToCategory(productDto.getCategoryDto()))
-                .producer(fromProducerDtoToProducer(productDto.getProducerDto()))
+//                .category(fromCategoryDtoToCategory(productDto.getCategoryDto()))
+//                .producer(fromProducerDtoToProducer(productDto.getProducerDto()))
                 .build();
     }
 

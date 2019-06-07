@@ -16,4 +16,6 @@ public class TradeDto {
     private BigInteger id;
     private String name;
 
+
+
 }

@@ -25,7 +25,18 @@ public class ProductRepositoryImpl extends AbstractCrudGenericRepository<Product
         EntityTransaction entityTransaction = entityManager.getTransaction();
 
         try {
+            //nazwa,kategoria,ten sam producent
             entityTransaction.begin();
+
+            products = entityManager.createQuery("select p from Product p where lower(p.name) like :name and lower(p.category.name) like :categoryName "
+                    + " and lower(p.producer.name) like :producerName  and lower(p.producer.country.name) like :producerCountry"
+            )
+                    .setParameter("name", productDto.getName())
+                    .setParameter("categoryName", productDto.getCategoryName())
+                    .setParameter("producerName", productDto.getProducerName())
+                    .setParameter("producerCountry", productDto.getProducerNameCountry())
+
+                    .getResultList();
 
             entityTransaction.commit();
 
