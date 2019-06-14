@@ -15,7 +15,7 @@ public class StockDto {
 
     private BigInteger id;
     private Integer quantity;
-//    private ProductDto productDto;
+    private ProductDto productDto;
     private String productName;
     private ShopDto shopDto;
 
