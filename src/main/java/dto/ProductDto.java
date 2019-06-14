@@ -17,10 +17,6 @@ public class ProductDto {
     private BigInteger id;
     private String name;
     private BigDecimal price;
-//    private CategoryDto categoryDto;
+    private CategoryDto categoryDto;
     private ProducerDto producerDto;
-//    private String tradeName;
-    private String categoryName;
-    private String producerName;
-    private String producerNameCountry;
 }

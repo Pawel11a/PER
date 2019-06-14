@@ -56,43 +56,4 @@ public class ProducerRepositoryImpl extends AbstractCrudGenericRepository<Produc
 
 
     }
-
-    public Producer findByNameAndCountry(String name, String country) {
-
-        List<Producer> producers = new ArrayList<>();
-        EntityManager entityManager = null;
-        EntityTransaction entityTransaction = null;
-
-        try {
-            entityManager = entityManagerFactory.createEntityManager();
-            entityTransaction = entityManager.getTransaction();
-
-            entityTransaction.begin();
-            producers = entityManager.createQuery("select p from Producer p where lower (p.name) like :name and lower(p.country.name) like :country", Producer.class)
-                    .setParameter("name", name.trim().toLowerCase())
-                    .setParameter("country",country.trim().toLowerCase())
-                    .getResultList();
-
-            entityTransaction.commit();
-
-        } catch (Exception ex) {
-
-            LOGGER.warning("an error occurred whether the producer exists " + ex);
-            throw new MyException("ProducerRepository - findByNameAndCountry method exception, rollback operation");
-
-        } finally {
-            if (entityManager != null) {
-                entityManager.close();
-            }
-        }
-
-
-        if (producers.isEmpty()) {
-            return null;
-        } else {
-            return producers.get(0);
-        }
-
-
-    }
 }

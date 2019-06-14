@@ -21,7 +21,4 @@ public class CountryDto {
     private BigInteger id;
     private String name;
 
-    public CountryDto(String name) {
-        this.name = name;
-    }
 }
