@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -33,6 +34,6 @@ public class GuaranteeComponents {
     )
     @Column(name = "guarantee")
     @Enumerated(EnumType.STRING)
-    private List<EGuarantee> guaranties;
+    private Set<EGuarantee> guaranties;
 
 }

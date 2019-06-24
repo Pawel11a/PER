@@ -15,6 +15,7 @@ import model.Category;
 import model.Country;
 import model.Customer;
 import model.CustomerOrder;
+import model.EGuarantee;
 import model.Errors;
 import model.GuaranteeComponents;
 import model.Payment;
@@ -126,6 +127,7 @@ public class Mapper {
                 .id(guaranteeComponentsDto.getId())
                 .product(fromProductDtoToProduct(guaranteeComponentsDto.getProductDto()))
                 .guaranteeComponent(guaranteeComponentsDto.getGuaranteeComponent())
+                .guaranties(new HashSet<EGuarantee>())
                 .build();
     }
 
@@ -141,6 +143,7 @@ public class Mapper {
         return paymentDto == null ? null : Payment.builder()
                 .id(paymentDto.getId())
                 .payment(paymentDto.getPayment())
+                .customerOrders(new HashSet<>())
                 .build();
     }
 
@@ -166,6 +169,7 @@ public class Mapper {
                 .name(producerDto.getName())
                 .country(fromCountryDtoToCountry(producerDto.getCountry()))
                 .trade(fromTradeDtoToTrade(producerDto.getTrade()))
+                .products(new HashSet<>())
                 .build();
     }
 
@@ -186,6 +190,9 @@ public class Mapper {
                 .price(productDto.getPrice())
                 .category(fromCategoryDtoToCategory(productDto.getCategoryDto()))
                 .producer(fromProducerDtoToProducer(productDto.getProducerDto()))
+                .customerOrders(new HashSet<>())
+                .stocks(new HashSet<>())
+                .guaranteeComponents(new HashSet<>())
                 .build();
     }
 
@@ -195,6 +202,7 @@ public class Mapper {
                 .id(shopDto.getId())
                 .name(shopDto.getName())
                 .country(fromCountryDtoToCountry(shopDto.getCountryDto()))
+                .stocks(new HashSet<>())
                 .build();
     }
 
