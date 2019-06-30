@@ -11,7 +11,7 @@
 .mtj.tmp/
 
 #Ignore META-INF
-META-INF
+persistence.xml
 
 # Package Files #
 *.jar
