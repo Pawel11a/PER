@@ -10,8 +10,8 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-#Ignore META-INF
-PER\src\main\resources\META-INF\persistence.xml
+#Ignore persistence.xml
+src\main\resources\META-INF\persistence.xml
 
 # Package Files #
 *.jar
