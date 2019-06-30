@@ -11,7 +11,7 @@
 .mtj.tmp/
 
 #Ignore persistence.xml
-src\main\resources\META-INF\persistence.xml
+D:\Kurs\PER\src\main\resources\META-INF\persistence.xml
 
 # Package Files #
 *.jar
