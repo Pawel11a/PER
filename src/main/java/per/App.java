@@ -123,9 +123,9 @@ public class App {
         System.out.println("     ****************************************");
         System.out.println("     *                 MENU                 *");
         System.out.println("     ****************************************");
-        System.out.println("     1. Suma");
-        System.out.println("     2. Sinus");
-        System.out.println("     3. Informaja");
+        System.out.println("     1. Add producer");
+        System.out.println("     2. Add country");
+        System.out.println("     3. Add customer");
         System.out.println("     0. END");
 
         Scanner in = new Scanner(System.in);

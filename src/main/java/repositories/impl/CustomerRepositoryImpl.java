@@ -38,10 +38,6 @@ public class CustomerRepositoryImpl extends AbstractCrudGenericRepository<Custom
             transaction.commit();
 
 
-//            entity = entityManager.createQuery("select c from customer as c left join country as cc on c.country_id = cc.id  " +
-//                    " where lower(c.name) like :name and lower(c.surname)" +
-//                    " like :surname AND lower(cc.name) like :country ", Customer.class)
-
             if (entity.isEmpty()) {
                 return null;
             }
