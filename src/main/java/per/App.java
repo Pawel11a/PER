@@ -5,18 +5,8 @@ import dto.CountryDto;
 import dto.CustomerDto;
 import exceptions.MyException;
 import model.Customer;
-import repositories.impl.CategoryRepositoryImpl;
-import repositories.impl.CountryRepositoryImpl;
-import repositories.impl.CustomerRepositoryImpl;
-import repositories.impl.ErrorRepositoryImpl;
-import repositories.impl.ProducerRepositoryImpl;
-import repositories.impl.TradeRepositoryImpl;
-import service.CategoryService;
-import service.CountryService;
-import service.CustomerService;
-import service.ErrorService;
-import service.ProducerService;
-import service.ValidateService;
+import repositories.impl.*;
+import service.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -46,10 +36,12 @@ public class App {
         CountryRepositoryImpl countryRepository = new CountryRepositoryImpl();
         ProducerRepositoryImpl producerRepository = new ProducerRepositoryImpl();
         TradeRepositoryImpl tradeRepository = new TradeRepositoryImpl();
+        ShopRepositoryImpl shopRepository = new ShopRepositoryImpl();
 
 //ok dodawanie użytkownika
 
         CustomerService customerService = new CustomerService(customerRepository, countryRepository);
+        ShopService shopService = new ShopService(shopRepository, countryRepository);
 //        -----------------------
 //        CategoryService categoryService = new CategoryService(categoryRepository);
 
@@ -91,6 +83,13 @@ public class App {
 
                         break;
 
+                    case 4:
+                        System.out.println("Add shop");
+                        shopService.addShop();
+                        System.out.format("End shop ");
+
+                        break;
+
                     default :
                         System.out.println("This operation not exists " + continueWork);
                 }
@@ -126,6 +125,7 @@ public class App {
         System.out.println("     1. Add producer");
         System.out.println("     2. Add country");
         System.out.println("     3. Add customer");
+        System.out.println("     4. Add shop");
         System.out.println("     0. END");
 
         Scanner in = new Scanner(System.in);

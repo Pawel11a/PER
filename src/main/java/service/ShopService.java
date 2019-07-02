@@ -1,5 +1,6 @@
 package service;
 
+import convert.Mapper;
 import dto.CountryDto;
 import dto.CustomerDto;
 import dto.ErrorsEnumDto;
@@ -11,6 +12,7 @@ import model.Errors;
 import org.apache.commons.lang3.StringUtils;
 import repositories.impl.CountryRepositoryImpl;
 import repositories.impl.CustomerRepositoryImpl;
+import repositories.impl.ShopRepositoryImpl;
 import utils.UtilsMethods;
 
 import java.util.ArrayList;
@@ -23,31 +25,38 @@ public class ShopService {
 
     private static Logger LOGGER = Logger.getLogger("ShopService");
 
-    private final CustomerRepositoryImpl customerRepository;
+    private final ShopRepositoryImpl shopRepository;
     private final CountryRepositoryImpl countryRepository;
 
     public void addShop() {
 
         LOGGER.info("Start operation addShop()");
 
-        ShopDto shopDto = new ShopDto();
-        CountryDto countryDto = new CountryDto();
+        try {
+            ShopDto shopDto = new ShopDto();
+            CountryDto countryDto = new CountryDto();
 
-        enterShopData(shopDto, countryDto);
+            enterShopData(shopDto, countryDto);
 
-        validateShop(shopDto, countryDto);
+            validateShop(shopDto, countryDto);
 
-        Country findCountryByName = countryRepository.findByNameCountry(countryDto.getName());
+            Country findCountryByName = countryRepository.findByNameCountry(countryDto.getName());
 
 //TODO complete the operation
-        if (findCountryByName != null) {
+            if (findCountryByName != null) {
+                shopDto.setCountryDto(Mapper.fromCountryToCountryDto(findCountryByName));
 
+            } else {
+
+                shopDto.setCountryDto(countryDto);
+            }
+            shopRepository.saveOrUpdate(Mapper.fromShopDtoToShop(shopDto));
 
             LOGGER.info("End operation addShop()");
+        }catch(Exception ex){
+            LOGGER.warning("Incorrect shop data " + ex);
+            Errors shopError = new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.SHOP.name() + " - add shop");
         }
-
-
-        LOGGER.info("End operation addShop()");
 
     }
 

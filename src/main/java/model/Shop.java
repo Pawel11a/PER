@@ -23,7 +23,7 @@ public class Shop {
     private BigInteger id;
     private String name;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "country")
     private Country country;
 
