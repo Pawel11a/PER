@@ -2,6 +2,7 @@ package repositories.impl;
 
 import dto.ProductDto;
 import exceptions.MyException;
+import model.Producer;
 import model.Product;
 import repositories.ProductRepository;
 import repositories.generic.AbstractCrudGenericRepository;
@@ -27,11 +28,18 @@ public class ProductRepositoryImpl extends AbstractCrudGenericRepository<Product
         try {
             entityTransaction.begin();
 
+            products = entityManager.createQuery("select p from Product p where lower (p.name) like :name and lower(p.category) like :category and lower(p.producer.name) like :producerName", Product.class)
+                    .setParameter("name", productDto.getName().trim().toLowerCase())
+                    .setParameter("category", productDto.getCategoryDto().getName().trim().toLowerCase())
+                    .setParameter("producerName", productDto.getProducerDto().getName().trim().toLowerCase())
+                    .getResultList();
+
+
             entityTransaction.commit();
 
 
         } catch (Exception ex) {
-            LOGGER.warning("an error occurred whether the producer exists " + ex);
+            LOGGER.warning("an error occurred whether the product exists " + ex);
             throw new MyException("ProductRepository - findProductAndCategoryAndProducer method exception, rollback operation");
 
         } finally {

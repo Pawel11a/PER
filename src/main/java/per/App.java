@@ -37,6 +37,7 @@ public class App {
         ProducerRepositoryImpl producerRepository = new ProducerRepositoryImpl();
         TradeRepositoryImpl tradeRepository = new TradeRepositoryImpl();
         ShopRepositoryImpl shopRepository = new ShopRepositoryImpl();
+        ProductRepositoryImpl productRepository = new ProductRepositoryImpl();
 
 //ok dodawanie użytkownika
 
@@ -47,13 +48,8 @@ public class App {
 
         CountryService countryService = new CountryService(countryRepository);
         ProducerService producerService = new ProducerService(producerRepository, countryRepository, tradeRepository);
-
-//        Boolean continueWork = true;
-
-//        while(continueWork){
-//
-//        }
-
+        ProductService productService = new ProductService(countryRepository,
+                productRepository, categoryRepository, producerRepository);
 
         Scanner in = new Scanner(System.in);
 
@@ -63,34 +59,42 @@ public class App {
             try {
                 switch (continueWork) {
                     case 1:
-                        System.out.println("Add producer");
+                        LOGGER.info("Add producer");
                         producerService.addProducer();
                         System.out.format("End add producer ");
+                        LOGGER.info("Add producer");
 
                         break;
 
                     case 2:
-                        System.out.println("Add country");
+                        LOGGER.info("Add country");
                         countryService.addCountry();
-                        System.out.format("End country ");
+                        LOGGER.info("End country");
 
                         break;
 
                     case 3:
-                        System.out.println("Add customer");
+                        LOGGER.info("Add customer");
                         customerService.addCustomer();
-                        System.out.format("End customer ");
+                        LOGGER.info("End customer");
 
                         break;
 
                     case 4:
-                        System.out.println("Add shop");
+                        LOGGER.info("Add shop");
                         shopService.addShop();
-                        System.out.format("End shop ");
+                        LOGGER.info("End shop");
 
                         break;
 
-                    default :
+                    case 5:
+                        LOGGER.info("Add product");
+                        productService.addProduct();
+                        LOGGER.info("End product");
+
+                        break;
+
+                    default:
                         System.out.println("This operation not exists " + continueWork);
                 }
             } catch (MyException me) {
@@ -126,6 +130,7 @@ public class App {
         System.out.println("     2. Add country");
         System.out.println("     3. Add customer");
         System.out.println("     4. Add shop");
+        System.out.println("     5. Add product");
         System.out.println("     0. END");
 
         Scanner in = new Scanner(System.in);

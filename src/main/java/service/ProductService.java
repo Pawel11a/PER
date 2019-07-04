@@ -1,16 +1,13 @@
 package service;
 
 import convert.Mapper;
+import dto.CountryDto;
 import dto.ErrorsEnumDto;
 import dto.ProducerDto;
 import dto.ProductDto;
 import exceptions.MyException;
 import lombok.RequiredArgsConstructor;
-import model.Category;
-import model.Country;
-import model.Errors;
-import model.Producer;
-import model.Trade;
+import model.*;
 import org.apache.commons.lang3.StringUtils;
 import repositories.impl.CategoryRepositoryImpl;
 import repositories.impl.CountryRepositoryImpl;
@@ -38,12 +35,29 @@ public class ProductService {
 
         LOGGER.info("Start operation addProduct()");
 
-        ProductDto producerDto = new ProductDto();
+        ProductDto productDto = new ProductDto();
 
-        enterProductData(producerDto);
-        validateProduct(producerDto);
+        enterProductData(productDto);
+        validateProduct(productDto);
 
+        //---------------------------
 
+        Product findProduct = productRepository.findProductAndCategoryAndProducer(productDto);
+
+        try{
+//TODO complete the operation
+        if (findProduct != null) {
+            throw new Exception("Product is exists");
+
+        }
+        productRepository.saveOrUpdate(Mapper.fromProductDtoToProduct(productDto));
+
+    }catch(Exception ex){
+        LOGGER.warning("Incorrect product data " + ex);
+        Errors shopError = new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.PRODUCT.name() + " - add product");
+    }
+
+//------------
 
         LOGGER.info("End operation addProduct()");
 
@@ -52,6 +66,8 @@ public class ProductService {
 
     private void enterProductData(ProductDto productDto) {
         Scanner sc = new Scanner(System.in);
+        ProducerDto producerDto = new ProducerDto();
+        CountryDto countryDto = new CountryDto();
 
         System.out.println("Enter product name: ");
         productDto.setName(sc.nextLine());
@@ -63,12 +79,19 @@ public class ProductService {
             LOGGER.warning("Incorrect price " + ex);
             productDto.setPrice(null);
         }
+        sc.nextLine();
         System.out.println("Enter product's producer name: ");
         String producerName = sc.nextLine();
-        productDto.setProducerDto(Mapper.fromProducerToProducerDto(new Producer(producerName)));
+//        productDto.setProducerDto(Mapper.fromProducerToProducerDto(new Producer(producerName)));
+        producerDto.setName(producerName);
         System.out.println("Enter product's category: ");
         String categoryName = sc.nextLine();
         productDto.setCategoryDto(Mapper.fromCategoryToCategoryDto(new Category(categoryName)));
+        System.out.println("Enter producter's country: ");
+        String producterCountry = sc.nextLine();
+        countryDto.setName(producerName);
+        producerDto.setCountry(countryDto);
+        productDto.setProducerDto(producerDto);
     }
 
     private void validateProduct(ProductDto productDto) {
