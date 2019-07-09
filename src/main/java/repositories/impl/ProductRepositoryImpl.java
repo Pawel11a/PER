@@ -28,7 +28,7 @@ public class ProductRepositoryImpl extends AbstractCrudGenericRepository<Product
         try {
             entityTransaction.begin();
 
-            products = entityManager.createQuery("select p from Product p where lower (p.name) like :name and lower(p.category) like :category and lower(p.producer.name) like :producerName", Product.class)
+            products = entityManager.createQuery("select p from Product p where lower (p.name) like :name and lower(p.category.name) like :category and lower(p.producer.name) like :producerName", Product.class)
                     .setParameter("name", productDto.getName().trim().toLowerCase())
                     .setParameter("category", productDto.getCategoryDto().getName().trim().toLowerCase())
                     .setParameter("producerName", productDto.getProducerDto().getName().trim().toLowerCase())

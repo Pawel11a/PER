@@ -38,6 +38,7 @@ public class App {
         TradeRepositoryImpl tradeRepository = new TradeRepositoryImpl();
         ShopRepositoryImpl shopRepository = new ShopRepositoryImpl();
         ProductRepositoryImpl productRepository = new ProductRepositoryImpl();
+        StockRepositoryImpl stockRepository = new StockRepositoryImpl();
 
 //ok dodawanie użytkownika
 
@@ -48,9 +49,12 @@ public class App {
 
         CountryService countryService = new CountryService(countryRepository);
         ProducerService producerService = new ProducerService(producerRepository, countryRepository, tradeRepository);
+        StockService stockService = new StockService(stockRepository);
         ProductService productService = new ProductService(countryRepository,
                 productRepository, categoryRepository, producerRepository);
-
+/*
+Pobierane są w postaci napisów nazwa produktu wraz z nazwą kategorii, nazwa sklepu wraz z krajem pochodzenia oraz ilość sztuk (ta dana może być pobierana jako liczba). W przypadku większej ilości produktów lub sklepów o podanych właściwościach należy zezwolić użytkownikowi na wybranie jednego z nich.
+ */
         Scanner in = new Scanner(System.in);
 
         int continueWork = menu();
@@ -91,6 +95,13 @@ public class App {
                         LOGGER.info("Add product");
                         productService.addProduct();
                         LOGGER.info("End product");
+
+                        break;
+
+                    case 6:
+                        LOGGER.info("Add stock");
+                        stockService.addStock();
+                        LOGGER.info("End stock");
 
                         break;
 
