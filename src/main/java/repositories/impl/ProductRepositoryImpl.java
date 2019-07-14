@@ -4,6 +4,7 @@ import dto.ProductDto;
 import exceptions.MyException;
 import model.Producer;
 import model.Product;
+import model.Shop;
 import repositories.ProductRepository;
 import repositories.generic.AbstractCrudGenericRepository;
 
@@ -18,12 +19,13 @@ import java.util.logging.Logger;
 public class ProductRepositoryImpl extends AbstractCrudGenericRepository<Product, BigInteger> implements ProductRepository {
 
     private static Logger LOGGER = Logger.getLogger("ProductRepositoryImpl");
+    List<Product> products = new ArrayList<>();
+    EntityManager entityManager = entityManagerFactory.createEntityManager();
+    EntityTransaction entityTransaction = entityManager.getTransaction();
 
     public Product findProductAndCategoryAndProducer(ProductDto productDto) {
 
-        List<Product> products = new ArrayList<>();
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction entityTransaction = entityManager.getTransaction();
+
 
         try {
             entityTransaction.begin();
@@ -54,8 +56,36 @@ public class ProductRepositoryImpl extends AbstractCrudGenericRepository<Product
         } else {
             return products.get(0);
         }
+    }
+
+    public Product findProductByName(String name) {
 
 
+        try {
+
+            entityTransaction.begin();
+            products = entityManager.createQuery("select c from Product c where lower(c.name) like :name", Product.class)
+                    .setParameter("name", name.trim().toLowerCase())
+                    .getResultList();
+            entityTransaction.commit();
+
+
+        } catch (Exception e) {
+            if (entityTransaction != null) {
+                entityTransaction.rollback();
+            }
+            throw new MyException("ShopRepository - findByName method exception, rollback operation");
+        } finally {
+            if (entityManager != null) {
+                entityManager.close();
+            }
+        }
+
+        if (products == null || products.get(0) == null) {
+            return null;
+        }
+
+        return products.get(0);
     }
 
 }

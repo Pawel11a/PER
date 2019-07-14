@@ -1,18 +1,13 @@
 package service;
 
 import convert.Mapper;
-import dto.CountryDto;
-import dto.ErrorsEnumDto;
-import dto.ShopDto;
-import dto.StockDto;
+import dto.*;
 import exceptions.MyException;
 import lombok.RequiredArgsConstructor;
-import model.Country;
+import model.*;
 import model.Errors;
 import org.apache.commons.lang3.StringUtils;
-import repositories.impl.CountryRepositoryImpl;
-import repositories.impl.ShopRepositoryImpl;
-import repositories.impl.StockRepositoryImpl;
+import repositories.impl.*;
 import utils.UtilsMethods;
 
 import java.util.ArrayList;
@@ -24,9 +19,11 @@ import java.util.logging.Logger;
 public class StockService {
     private static Logger LOGGER = Logger.getLogger("StockService");
 
-//    private final ShopRepositoryImpl shopRepository;
-//    private final CountryRepositoryImpl countryRepository;
+    private final CategoryRepositoryImpl categoryRepository;
+    private final ShopRepositoryImpl shopRepository;
+    private final CountryRepositoryImpl countryRepository;
     private final StockRepositoryImpl stockRepository;
+    private final ProductRepositoryImpl productRepository;
 
     public void addStock() {
     /*
@@ -35,51 +32,98 @@ public class StockService {
         LOGGER.info("Start operation addStock()");
 
         try {
+            StockDto stockDto = new StockDto();
             ShopDto shopDto = new ShopDto();
             CountryDto countryDto = new CountryDto();
 
-            enterStockData(shopDto, countryDto);
+            ProductDto productDto = new ProductDto();
+            CategoryDto categoryDto = new CategoryDto();
+            CountryDto countryDto1 = new CountryDto();
+            categoryDto.setName("FOOD");
+            productDto.setName("BATTERY");
+            countryDto1.setName("ITALIA");
+            productDto.setCategoryDto(categoryDto);
 
-            validateStock(shopDto, countryDto);
+            ShopDto shopDto1 = new ShopDto();
+            shopDto1.setName("ELO");
+            shopDto1.setCountryDto(countryDto1);
 
-            Country findCountryByName = stockRepository.findByNameCountry(countryDto.getName());
+            stockDto.setQuantity(2);
+            stockDto.setProductDto(productDto);
+            stockDto.setShopDto(shopDto1);
 
-//TODO complete the operation
-            if (findCountryByName != null) {
-                shopDto.setCountryDto(Mapper.fromCountryToCountryDto(findCountryByName));
+//            enterStockData(stockDto);
 
+            validateStock(stockDto);
+
+            Stock findRowbyNameProductAndShop = stockRepository.findByNameProductAndShop(stockDto.getProductDto().getName(), stockDto.getShopDto().getName());
+
+
+            if (findRowbyNameProductAndShop != null) {
+                findRowbyNameProductAndShop.setQuantity(findRowbyNameProductAndShop.getQuantity() + stockDto.getQuantity());
+                stockRepository.saveOrUpdate(findRowbyNameProductAndShop);
             } else {
-
-                shopDto.setCountryDto(countryDto);
+                Stock stock = Mapper.fromStockDtoToStock(stockDto);
+                stockRepository.saveOrUpdate(stock);
             }
-            stockRepository.saveOrUpdate(Mapper.fromShopDtoToShop(shopDto));
-
             LOGGER.info("End operation addStock()");
-        }catch(Exception ex){
+        } catch (Exception ex) {
             LOGGER.warning("Incorrect stock data " + ex);
             Errors stockError = new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.STOCK.name() + " - add stock");
         }
 
     }
 
-    private void validateStock(StockDto stockDto, CountryDto countryDto) {
+    private void validateStock(StockDto stockDto) {
 
         List<Errors> lists = new ArrayList<>();
 
         Errors stockError = new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.STOCK.name() + " - add stock");
         if (stockDto == null) {
-            Errors shopEmpty = new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.STOCK.name() + " - stock object empty");
-            lists.add(shopEmpty);
-            ErrorService.saveError(shopEmpty);
-            throw new MyException("Shop data are incorrect", lists);
+            Errors stockEmpty = new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.STOCK.name() + " - stock object empty");
+            lists.add(stockEmpty);
+            ErrorService.saveError(stockEmpty);
+            throw new MyException("Stock data are incorrect", lists);
         }
 
-        if (StringUtils.isEmpty(stockDto.getName()) || !ValidateService.nameIsCorrect(stockDto.getName())) {
-            lists.add(new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.SHOP.name() + " - stock name is incorrect"));
-        }
+        if (stockDto.getProductDto() == null || stockDto.getShopDto() == null || stockDto.getQuantity() == null || stockDto.getShopDto().getCountryDto() == null || stockDto.getQuantity() == null) {
 
-        if (StringUtils.isEmpty(countryDto.getName()) || !ValidateService.nameIsCorrect(countryDto.getName())) {
-            lists.add(new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.SHOP.name() + " - stock name is incorrect"));
+            lists.add(new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.STOCK.name() + " - stock datas is null"));
+        } else if (StringUtils.isEmpty(stockDto.getProductDto().getName()) || StringUtils.isEmpty(stockDto.getProductDto().getCategoryDto().getName())
+                || StringUtils.isEmpty(stockDto.getShopDto().getName()) || StringUtils.isEmpty(stockDto.getShopDto().getCountryDto().getName())
+                || stockDto.getQuantity() < 0) {
+
+            lists.add(new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.STOCK.name() + " - stock datas is empty"));
+        } else {
+
+
+            Country byNameCountry = countryRepository.findByNameCountry(stockDto.getShopDto().getCountryDto().getName());
+            Category categorybyName = categoryRepository.findByName(stockDto.getProductDto().getCategoryDto().getName());
+            Shop shopByName = shopRepository.findShopByName(stockDto.getShopDto().getName());
+            Product productByName = productRepository.findProductByName(stockDto.getProductDto().getName());
+
+//            stockDto.setShopDto(Mapper.fromShopToShopDto(shopByName));
+//            stockDto.setProductDto(Mapper.fromProductToProductDto(productByName));
+//            stockDto.setProductDto();
+//            Mapper.fromShopToShopDto(shopByName);
+
+            if (byNameCountry == null) {
+                lists.add(new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.STOCK.name() + " - stock countrys name isn't exists"));
+            }
+
+            if (categorybyName == null) {
+                lists.add(new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.STOCK.name() + " - stock categorys name isn't exists"));
+            }
+
+            if (shopByName == null) {
+                lists.add(new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.STOCK.name() + " - stock shops name isn't exists"));
+            }
+
+            if (productByName == null) {
+                lists.add(new Errors(UtilsMethods.currentDate(), ErrorsEnumDto.STOCK.name() + " - stock products name isn't exists"));
+            }
+
+
         }
 
         if (!lists.isEmpty()) {
@@ -90,22 +134,39 @@ public class StockService {
         }
     }
 
-    private void enterStockData(ShopDto shopDto, CountryDto countryDto) {
+    private void enterStockData(StockDto stockDto) {
         Scanner sc = new Scanner(System.in);
+        ProductDto productDto = new ProductDto();
+        CategoryDto categoryDto = new CategoryDto();
+        ShopDto shopDto = new ShopDto();
+        CountryDto countryDto = new CountryDto();
+//        productDto.setCategoryDto();
 /*
 private BigInteger id;
     private Integer quantity;
     private ProductDto productDto;
     private ShopDto shopDto;
  */
-        System.out.println("Enter the name of the produck: ");
-        stockDto.setName(sc.nextLine());
+        System.out.println("enter the product name: ");
+        productDto.setName(sc.nextLine());
 
-        System.out.println("Enter the name of the category: ");
-        stockDto.setName(sc.nextLine());
+        System.out.println("enter the category name: ");
+        categoryDto.setName(sc.nextLine());
+        productDto.setCategoryDto(categoryDto);
 
-        System.out.println("Enter the name of the country: ");
+        System.out.println("enter the store name: ");
+        shopDto.setName(sc.nextLine());
+
+        System.out.println("enter the name of the country of origin: ");
         countryDto.setName(sc.nextLine());
+        shopDto.setCountryDto(countryDto);
+
+        System.out.println("enter the number of stocks: ");
+        stockDto.setQuantity(sc.nextInt());
+        sc.nextLine();
+
+        stockDto.setShopDto(shopDto);
+        stockDto.setProductDto(productDto);
     }
 
 

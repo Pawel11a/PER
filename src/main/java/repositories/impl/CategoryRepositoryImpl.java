@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public class CategoryRepositoryImpl extends AbstractCrudGenericRepository<Category, BigInteger> implements CategoryRepository {
 
-    public List<Category> findByName(String name) {
+    public Category findByName(String name) {
 
         List<Category> entity = new ArrayList<>();
         EntityManager entityManager = null;
@@ -40,6 +40,11 @@ public class CategoryRepositoryImpl extends AbstractCrudGenericRepository<Catego
                 entityManager.close();
             }
         }
-        return entity;
+
+        if (entity == null || entity.get(0) == null) {
+            return null;
+        }
+
+        return entity.get(0);
     }
 }

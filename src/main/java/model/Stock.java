@@ -22,11 +22,11 @@ public class Stock {
     private BigInteger id;
     private Integer quantity;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne()
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne()
     @JoinColumn(name = "shop_id")
     private Shop shop;
 

@@ -33,9 +33,9 @@ public class CategoryService {
             }
         }
 
-        List<Category> findByName = categoryRepository.findByName(categoryDto.getName());
+        Category findByName = categoryRepository.findByName(categoryDto.getName());
 
-        if (findByName == null || findByName.isEmpty()) {
+        if (findByName == null) {
 
 //            var mapperCategory = Mappers.getMapper(CategoryMapper.class);
 //            Category category = mapperCategory.categoryDtoToCategory(categoryDto);

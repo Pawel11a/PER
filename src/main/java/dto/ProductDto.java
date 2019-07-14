@@ -14,6 +14,10 @@ import java.math.BigInteger;
 @Builder
 public class ProductDto {
 
+    public ProductDto(String name) {
+        this.name = name;
+    }
+
     private BigInteger id;
     private String name;
     private BigDecimal price;

@@ -49,7 +49,7 @@ public class App {
 
         CountryService countryService = new CountryService(countryRepository);
         ProducerService producerService = new ProducerService(producerRepository, countryRepository, tradeRepository);
-        StockService stockService = new StockService(stockRepository);
+        StockService stockService = new StockService(categoryRepository, shopRepository, countryRepository,stockRepository, productRepository);
         ProductService productService = new ProductService(countryRepository,
                 productRepository, categoryRepository, producerRepository);
 /*
@@ -142,6 +142,7 @@ Pobierane są w postaci napisów nazwa produktu wraz z nazwą kategorii, nazwa s
         System.out.println("     3. Add customer");
         System.out.println("     4. Add shop");
         System.out.println("     5. Add product");
+        System.out.println("     6. Add stock");
         System.out.println("     0. END");
 
         Scanner in = new Scanner(System.in);
