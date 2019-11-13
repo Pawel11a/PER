@@ -20,7 +20,7 @@ public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 
-    private BigInteger id;
+    private Long id;
     @Column(name="name", unique=true)
     private String name;
 

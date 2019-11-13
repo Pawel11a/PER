@@ -18,7 +18,7 @@ public class CustomerOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private BigInteger id;
+    private Long id;
     private Date date;
     private BigDecimal discount;
     private Integer quantity;

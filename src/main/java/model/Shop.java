@@ -20,7 +20,7 @@ public class Shop {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private BigInteger id;
+    private Long id;
     private String name;
 
     @ManyToOne(cascade = CascadeType.MERGE)

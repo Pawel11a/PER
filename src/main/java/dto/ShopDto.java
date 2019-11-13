@@ -15,7 +15,7 @@ import java.util.Set;
 @Builder
 public class ShopDto {
 
-    private BigInteger id;
+    private Long id;
     private String name;
     private CountryDto countryDto;
 

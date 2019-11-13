@@ -15,7 +15,7 @@ import java.util.Date;
 @Builder
 public class CustomerOrderDto {
 
-    private BigInteger id;
+    private Long id;
     private Date date;
     private BigDecimal discount;
     private Integer quantity;

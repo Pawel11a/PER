@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Errors {
 
-    private BigInteger id;
+    private Long id;
     private LocalDateTime date;
     private String message;
     private String code;

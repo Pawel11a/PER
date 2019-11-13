@@ -14,7 +14,7 @@ import java.math.BigInteger;
 @Builder
 public class GuaranteeComponentsDto {
 
-    private BigInteger id;
+    private Long id;
     private Integer guaranteeComponent;
     private ProductDto productDto;
 }

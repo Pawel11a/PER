@@ -17,6 +17,6 @@ public class CategoryDto {
         this.name = name;
     }
 
-    private BigInteger id;
+    private Long id;
     private String name;
 }

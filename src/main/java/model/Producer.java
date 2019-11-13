@@ -19,7 +19,7 @@ import java.util.Set;
 public class Producer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private BigInteger id;
+    private Long id;
     private String name;
 
     public Producer(String name) {

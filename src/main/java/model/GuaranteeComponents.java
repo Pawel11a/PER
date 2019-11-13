@@ -20,7 +20,7 @@ public class GuaranteeComponents {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private BigInteger id;
+    private Long id;
     private Integer guaranteeComponent;
 
     @ManyToOne(cascade = CascadeType.PERSIST)

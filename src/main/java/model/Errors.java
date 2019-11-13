@@ -26,7 +26,7 @@ import java.util.Objects;
 public class Errors {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private BigInteger id;
+    private Long id;
     private LocalDateTime date;
     private String message;
 
@@ -43,11 +43,11 @@ public class Errors {
         this.message = message;
     }
 
-    public BigInteger getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

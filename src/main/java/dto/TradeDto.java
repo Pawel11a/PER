@@ -13,7 +13,7 @@ import java.math.BigInteger;
 @Builder
 public class TradeDto {
 
-    private BigInteger id;
+    private Long id;
     private String name;
 
 }

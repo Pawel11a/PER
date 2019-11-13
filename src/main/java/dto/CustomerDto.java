@@ -13,7 +13,7 @@ import java.math.BigInteger;
 @Builder
 public class CustomerDto {
 
-    private BigInteger id;
+    private Long id;
     private Integer age;
     private String name;
     private String surname;

@@ -20,7 +20,7 @@ public class Trade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private BigInteger id;
+    private Long id;
     private String name;
 
     public Trade(String name) {

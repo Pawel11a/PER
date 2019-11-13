@@ -18,7 +18,7 @@ import java.util.Set;
 @Builder
 public class CountryDto {
 
-    private BigInteger id;
+    private Long id;
     private String name;
 
 }

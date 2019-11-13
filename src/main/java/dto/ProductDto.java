@@ -18,7 +18,7 @@ public class ProductDto {
         this.name = name;
     }
 
-    private BigInteger id;
+    private Long id;
     private String name;
     private BigDecimal price;
     private CategoryDto categoryDto;

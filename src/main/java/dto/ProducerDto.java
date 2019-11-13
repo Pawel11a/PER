@@ -18,7 +18,7 @@ public class ProducerDto {
         this.name = name;
     }
 
-    private BigInteger id;
+    private Long id;
     private String name;
     private CountryDto country;
     private TradeDto trade;

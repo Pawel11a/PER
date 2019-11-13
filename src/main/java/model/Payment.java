@@ -20,7 +20,7 @@ public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private BigInteger id;
+    private Long id;
     private Integer payment;
 
     @OneToMany(mappedBy = "payment", cascade = CascadeType.PERSIST)

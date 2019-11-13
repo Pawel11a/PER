@@ -13,7 +13,7 @@ import java.math.BigInteger;
 @Builder
 public class StockDto {
 
-    private BigInteger id;
+    private Long id;
     private Integer quantity;
     private ProductDto productDto;
     private ShopDto shopDto;

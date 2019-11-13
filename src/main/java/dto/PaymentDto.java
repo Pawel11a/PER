@@ -13,7 +13,7 @@ import java.math.BigInteger;
 @Builder
 public class PaymentDto {
 
-    private BigInteger id;
+    private Long id;
     private Integer payment;
 
 }
